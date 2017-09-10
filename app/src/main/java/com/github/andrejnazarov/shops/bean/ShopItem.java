@@ -1,5 +1,9 @@
 package com.github.andrejnazarov.shops.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
@@ -8,7 +12,9 @@ import com.google.common.base.Objects;
  * @author Nazarov on 09.09.17.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ShopItem {
+public class ShopItem implements Parcelable {
+
+    public static final ClassCreator CREATOR = new ClassCreator();
 
     @JsonProperty("name")
     private String mName;
@@ -31,7 +37,7 @@ public class ShopItem {
     @JsonProperty("phone")
     private String mPhone;
 
-    @JsonProperty("worktipe")
+    @JsonProperty("worktime")
     private String mWorkTime;
 
     @JsonProperty("type")
@@ -42,6 +48,24 @@ public class ShopItem {
 
     @JsonProperty("latitude")
     private double mLatitude;
+
+    public ShopItem() {
+        // Jackson needs empty constructor
+    }
+
+    protected ShopItem(Parcel in) {
+        mName = in.readString();
+        mCountry = in.readString();
+        mRegion = in.readString();
+        mTown = in.readString();
+        mAddress = in.readString();
+        mMetro = in.readString();
+        mPhone = in.readString();
+        mWorkTime = in.readString();
+        mType = in.readString();
+        mLongtitude = in.readDouble();
+        mLatitude = in.readDouble();
+    }
 
     public String getName() {
         return mName;
@@ -136,5 +160,38 @@ public class ShopItem {
                 .add("mLongtitude", mLongtitude)
                 .add("mLatitude", mLatitude)
                 .toString();
+    }
+
+    @JsonIgnore
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mName);
+        dest.writeString(mCountry);
+        dest.writeString(mRegion);
+        dest.writeString(mTown);
+        dest.writeString(mAddress);
+        dest.writeString(mMetro);
+        dest.writeString(mPhone);
+        dest.writeString(mWorkTime);
+        dest.writeString(mType);
+        dest.writeDouble(mLongtitude);
+        dest.writeDouble(mLatitude);
+    }
+
+    private static final class ClassCreator implements Creator<ShopItem> {
+        @Override
+        public ShopItem createFromParcel(Parcel in) {
+            return new ShopItem(in);
+        }
+
+        @Override
+        public ShopItem[] newArray(int size) {
+            return new ShopItem[size];
+        }
     }
 }
