@@ -54,6 +54,10 @@ dependencies {
     //Google maps
     compile 'com.google.android.gms:play-services-maps:11.0.4'
 
+    //Moxy
+    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
